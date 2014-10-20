@@ -16,7 +16,7 @@ SRC_DIRS= ./EventEngines ./IO ./EchoResponder
 INC_DIRS=$(IDL_OUT_DIR)
 
 #Compilers flags
-CFLAGS=-MMD -g -c -Wall
+CFLAGS=-std=c++11 -MMD -g -c -Wall
 IFLAGS=-v -o $(IDL_OUT_DIR)
 
 #Dynamic libraries to build
