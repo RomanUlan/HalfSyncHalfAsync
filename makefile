@@ -10,7 +10,7 @@ IDL_DIRS=
 IDL_OUT_DIR=./
 
 #Source directories
-SRC_DIRS= ./EventEngines ./IO ./EchoResponder
+SRC_DIRS= ./Threading ./EventEngines ./IO ./EchoResponder
 
 #Headers directories
 INC_DIRS=$(IDL_OUT_DIR)
