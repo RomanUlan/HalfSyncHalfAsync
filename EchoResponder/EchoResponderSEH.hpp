@@ -1,5 +1,5 @@
-#ifndef ECHO_RESPONDER_EH_HPP
-#define ECHO_RESPONDER_EH_HPP
+#ifndef ECHO_RESPONDER_SEH_HPP
+#define ECHO_RESPONDER_SEH_HPP
 
 #include "BaseTypes.hpp"
 #include "MessageES.hpp"

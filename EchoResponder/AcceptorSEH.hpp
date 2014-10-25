@@ -1,5 +1,5 @@
-#ifndef ACCEPTOR_EH_HPP
-#define ACCEPTOR_EH_HPP
+#ifndef ACCEPTOR_SEH_HPP
+#define ACCEPTOR_SEH_HPP
 
 #include "BaseTypes.hpp"
 #include "ListenerES.hpp"

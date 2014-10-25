@@ -1,11 +1,11 @@
-#ifndef KEYBOARD_EH_HPP
-#define KEYBOARD_EH_HPP
+#ifndef KEYBOARD_SEH_HPP
+#define KEYBOARD_SEH_HPP
 
-#include "../EventEngines/SyncEventHandler.hpp"
+#include "BaseTypes.hpp"
 #include "KeyboardES.hpp"
 #include <fstream>
 
-class KeyboardSEH : public SyncEventHandler<SocketES, std::string>
+class KeyboardSEH : public SEH
 {
 public:
   KeyboardSEH(const std::string&, KeyboardES::Ptr);

@@ -27,6 +27,6 @@ protected:
   EventDemultiplexer();
   EventDemultiplexer(const EventDemultiplexer&);
   EventDemultiplexer& operator=(const EventDemultiplexer&);
-};
+}; //class EventDemultiplexer
 
 #endif

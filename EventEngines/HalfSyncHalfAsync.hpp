@@ -1,5 +1,6 @@
 #ifndef HALF_SYNC_HALF_ASYNC_HPP
 #define HALF_SYNC_HALF_ASYNC_HPP
+
 #include "SyncEventHandler.hpp"
 #include "AsyncEventHandler.hpp"
 #include "../Threading/ThreadPool.hpp"
