@@ -2,12 +2,12 @@
 #define EVENT_SOURCE_HPP
 
 #include <set>
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 class EventSource
 {
 public:
-  typedef boost::shared_ptr<EventSource> Ptr;
+  typedef std::shared_ptr<EventSource> Ptr;
   typedef int Descriptor;
   typedef int EventType;
   typedef std::set<EventType> EventTypes;

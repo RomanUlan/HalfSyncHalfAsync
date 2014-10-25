@@ -7,7 +7,7 @@
 class KeyboardES: public SocketES
 {
 public:
-  typedef boost::shared_ptr<KeyboardES> Ptr;
+  typedef std::shared_ptr<KeyboardES> Ptr;
 
 public:
   explicit KeyboardES(KeyboardSocket::Ptr);

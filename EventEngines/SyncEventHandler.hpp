@@ -19,12 +19,10 @@ public:
 
 protected:
 	explicit SyncEventHandler(typename EventSource::Ptr);
-
-private:
 	SyncEventHandler(const SyncEventHandler&);
 	SyncEventHandler& operator=(const SyncEventHandler&);
 
-private:
+protected:
 	typename EventSource::Ptr m_eventSource;
 }; //class SyncEventHandler
 

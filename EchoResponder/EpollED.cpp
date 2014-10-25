@@ -14,7 +14,7 @@ EpollED::~EpollED()
 
 void EpollED::add(EventSource::Ptr p_es)
 {
-  SocketES::Ptr sES = boost::dynamic_pointer_cast<SocketES>(p_es);
+  SocketES::Ptr sES = std::dynamic_pointer_cast<SocketES>(p_es);
   m_epoll->add(sES->getSocket(), p_es->getEventTypes());
 }
 

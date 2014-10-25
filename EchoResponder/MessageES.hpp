@@ -8,7 +8,7 @@
 class MessageES: public SocketES
 {
 public:
-  typedef boost::shared_ptr<MessageES> Ptr;
+  typedef std::shared_ptr<MessageES> Ptr;
 
 public:
   explicit MessageES(TcpSocket::Ptr);

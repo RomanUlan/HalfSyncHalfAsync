@@ -7,7 +7,7 @@
 class EventDemultiplexer
 {
 public:
-  typedef boost::shared_ptr<EventDemultiplexer> Ptr;
+  typedef std::shared_ptr<EventDemultiplexer> Ptr;
   struct Event
   {
     EventSource::Descriptor descriptor;

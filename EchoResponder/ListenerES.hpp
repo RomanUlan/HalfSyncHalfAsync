@@ -6,7 +6,7 @@
 class ListenerES: public SocketES
 {
 public:
-  typedef boost::shared_ptr<ListenerES> Ptr;
+  typedef std::shared_ptr<ListenerES> Ptr;
 
 public:
   ListenerES(TcpSocket::Ptr, int);

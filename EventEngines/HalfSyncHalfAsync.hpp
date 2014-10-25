@@ -1,21 +1,22 @@
 #ifndef HALF_SYNC_HALF_ASYNC_HPP
 #define HALF_SYNC_HALF_ASYNC_HPP
-
 #include "SyncEventHandler.hpp"
 #include "AsyncEventHandler.hpp"
-#include "IO/ThreadPool.hpp"
+#include "../Threading/ThreadPool.hpp"
+
+#include <map>
 
 template <typename EventDemultiplexer, typename EventSource, class SyncResult>
 class HalfSyncHalfAsync
 {
 public:
-	typedef std::shared_ptr<HalfSyncHalfAsync<EventSource, SyncResult> > Ptr;
+	typedef std::shared_ptr<HalfSyncHalfAsync<EventDemultiplexer, EventSource, SyncResult> > Ptr;
 	typedef std::pair<typename SyncEventHandler<EventSource, SyncResult>::Ptr,
 					  typename AsyncEventHandler<EventSource, SyncResult>::Ptr> Handlers;
 
 public:
 	HalfSyncHalfAsync(typename EventDemultiplexer::Ptr, size_t);
-	virtual HalfSyncHalfAsync();
+	virtual ~HalfSyncHalfAsync();
 
 	void add(const Handlers&);
 	void remove(typename EventSource::Descriptor);
@@ -26,9 +27,9 @@ private:
 	HalfSyncHalfAsync& operator=(const HalfSyncHalfAsync&);
 
 private:
-	std::map<typename EventSource::Descriptor, Handlers> t_handlers;
-	std::pair<Handlers, typename EventSource::EventTypes> t_toHandle;
-	std::vector<t_toHandle> t_toHandles;
+	typedef std::map<typename EventSource::Descriptor, Handlers> t_handlers;
+	typedef std::pair<Handlers, typename EventSource::EventTypes> t_toHandle;
+	typedef std::vector<t_toHandle> t_toHandles;
 
 	std::mutex m_mutex;
 	t_handlers m_handlers;
@@ -105,8 +106,11 @@ void HalfSyncHalfAsync<EventDemultiplexer, EventSource, SyncResult>::eventLoop()
 		{
 			AsyncEventHandler::Ptr aeh = i->second.second;
 			SyncResult res = i->second.first->handle(i->second);
-			ThreadPool::Task t = [aeh, res](void)->void { aeh->handle(res) };
-			m_threadPool.add(t);
+			if (aeh)
+			{
+				ThreadPool::Task t = [aeh, res](void)->void { aeh->handle(res); };
+				m_threadPool.add(t);
+			}
 		}
 	} //while (1)
 }

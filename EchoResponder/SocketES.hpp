@@ -7,7 +7,7 @@
 class SocketES: public EventSource
 {
 public:
-  typedef boost::shared_ptr<SocketES> Ptr;
+  typedef std::shared_ptr<SocketES> Ptr;
 
 public:
   virtual ~SocketES();
