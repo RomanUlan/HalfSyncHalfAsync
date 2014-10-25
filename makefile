@@ -23,7 +23,7 @@ IFLAGS=-v -o $(IDL_OUT_DIR)
 LIBRARIES=
 
 #Dynamic libraries
-LDFLAGS= -lboost_system
+LDFLAGS=-pthread
 
 #Get all IDLs from IDL_DIRS
 IDLS=$(foreach IDL_DIR,$(IDL_DIRS),$(wildcard $(IDL_DIR)/*.idl))

@@ -1,13 +1,12 @@
 #include "AcceptorSEH.hpp"
 #include "EchoResponderSEH.hpp"
-#include "../IO/Epoll.hpp"
-//#include "../EventEngines/Reactor.hpp"
+#include "EchoResponderAEH.hpp"
 
 #include <stdexcept>
 
-AcceptorSEH::AcceptorSEH(ListenerES::Ptr p_listenerES/*, Reactor& p_reactor*/)
+AcceptorSEH::AcceptorSEH(ListenerES::Ptr p_listenerES, HSHA& p_hsha)
 	: SyncEventHandler(p_listenerES)
-	//, m_reactor(p_reactor)
+	, m_hsha(p_hsha)
 {
 }
 
@@ -22,8 +21,9 @@ std::string AcceptorSEH::handle(const EventSource::EventTypes& p_eventTypes)
 	{
 		ListenerES::Ptr listenerES = std::dynamic_pointer_cast<ListenerES>(m_eventSource);
 		MessageES::Ptr msgES = listenerES->accept();
-		//EchoResponderEH::Ptr erEH(new EchoResponderEH(msgES, m_reactor));
-		//m_reactor.add(erEH);
+		EchoResponderSEH::Ptr erSEH(new EchoResponderSEH(msgES, m_hsha));
+		EchoResponderAEH::Ptr erAEH(new EchoResponderAEH(msgES, m_hsha));
+		m_hsha.add(HSHA::Handlers(erSEH, erAEH));
 	}
 	else
 	{

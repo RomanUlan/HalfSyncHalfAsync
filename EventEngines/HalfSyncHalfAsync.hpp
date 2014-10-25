@@ -41,19 +41,21 @@ template <typename EventDemultiplexer, typename EventSource, class SyncResult>
 HalfSyncHalfAsync<EventDemultiplexer, EventSource, SyncResult>::HalfSyncHalfAsync(typename EventDemultiplexer::Ptr p_ed, size_t p_tpSize)
 	: m_eventDemultiplexer(p_ed), m_threadPool(p_tpSize)
 {
+	m_threadPool.start();
 }
 
 template <typename EventDemultiplexer, typename EventSource, class SyncResult>
 HalfSyncHalfAsync<EventDemultiplexer, EventSource, SyncResult>::~HalfSyncHalfAsync()
 {
+	m_threadPool.stop(true);
 }
 
 template <typename EventDemultiplexer, typename EventSource, class SyncResult>
 void HalfSyncHalfAsync<EventDemultiplexer, EventSource, SyncResult>::add(const Handlers& p_handlers)
 {
-	EventSource::Ptr es = p_handlers.first->getEventSource();
-	EventSource::Descriptor syncD = es->getDescriptor();
-	if (syncD != p_handlers.second->getEventSource()->getDescriptor())
+	typename EventSource::Ptr es = p_handlers.first->getEventSource();
+	typename EventSource::Descriptor syncD = es->getDescriptor();
+	if (p_handlers.second && (syncD != p_handlers.second->getEventSource()->getDescriptor()))
 	{
 		throw std::runtime_error("Event handlers descriptors don't match");
 	}
@@ -71,8 +73,8 @@ void HalfSyncHalfAsync<EventDemultiplexer, EventSource, SyncResult>::remove(type
 	auto i = m_handlers.find(p_descriptor);
 	if (i != m_handlers.end())
 	{
-		m_handlers.erase();
 		m_eventDemultiplexer->remove(p_descriptor);
+		m_handlers.erase(i);
 	}
 }
 
@@ -81,8 +83,8 @@ void HalfSyncHalfAsync<EventDemultiplexer, EventSource, SyncResult>::eventLoop()
 {
 	while (1)
 	{
-		EventDemultiplexer::Events events;
-		m_eventDemultiplexer.wait(events);
+		typename EventDemultiplexer::Events events;
+		m_eventDemultiplexer->wait(events);
 
 		t_toHandles toHandles;
 		{ //m_mutex lock scope begin
@@ -102,10 +104,10 @@ void HalfSyncHalfAsync<EventDemultiplexer, EventSource, SyncResult>::eventLoop()
 			}
 		} //m_mutex lock scope end
 
-		for (t_toHandles::iterator i = toHandles.begin(); i != toHandles.end(); ++i)
+		for (typename t_toHandles::iterator i = toHandles.begin(); i != toHandles.end(); ++i)
 		{
-			AsyncEventHandler::Ptr aeh = i->second.second;
-			SyncResult res = i->second.first->handle(i->second);
+			typename AsyncEventHandler<EventSource, SyncResult>::Ptr aeh = i->first.second;
+			SyncResult res = i->first.first->handle(i->second);
 			if (aeh)
 			{
 				ThreadPool::Task t = [aeh, res](void)->void { aeh->handle(res); };

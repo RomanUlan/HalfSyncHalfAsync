@@ -19,12 +19,10 @@ public:
 
 protected:
 	explicit AsyncEventHandler(typename EventSource::Ptr);
-
-private:
 	AsyncEventHandler(const AsyncEventHandler&);
 	AsyncEventHandler& operator=(const AsyncEventHandler&);
 
-private:
+protected:
 	typename EventSource::Ptr m_eventSource;
 }; //class AsyncEventHandler
 

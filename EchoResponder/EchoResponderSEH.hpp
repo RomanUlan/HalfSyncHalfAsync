@@ -1,20 +1,20 @@
 #ifndef ECHO_RESPONDER_EH_HPP
 #define ECHO_RESPONDER_EH_HPP
 
-#include "../EventEngines/SyncEventHandler.hpp"
+#include "BaseTypes.hpp"
 #include "MessageES.hpp"
 
-class EchoResponderSEH: public SyncEventHandler<SocketES, std::string>
+class EchoResponderSEH: public SEH
 {
 public:
-	EchoResponderSEH(MessageES::Ptr/*, Reactor&*/);
+	EchoResponderSEH(MessageES::Ptr, HSHA&);
 	virtual ~EchoResponderSEH();
 
 public:
 	virtual std::string handle(const EventSource::EventTypes&);
 
 private:
-	//Reactor& m_reactor;
+	HSHA& m_hsha;
 };
 
 #endif

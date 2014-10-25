@@ -1,6 +1,3 @@
-#include "../EventEngines/HalfSyncHalfAsync.hpp"
-#include "../IO/Epoll.hpp"
-#include "EpollED.hpp"
 #include "AcceptorSEH.hpp"
 #include "KeyboardSEH.hpp"
 
@@ -13,20 +10,24 @@ int main(int, char**)
 	{
 		Epoll::Ptr epoll(new Epoll());
 		EpollED::Ptr epollED(new EpollED(epoll));
-		HalfSyncHalfAsync<EpollED, SocketES, std::string> hsha;
+		HSHA hsha(epollED, 1);
 
-		/*KeyboardSocket::Ptr keybSocket(new KeyboardSocket());
+		KeyboardSocket::Ptr keybSocket(new KeyboardSocket());
 		KeyboardES::Ptr keybES(new KeyboardES(keybSocket));
-		SyncEventHandler::Ptr keybEH(new KeyboardEH("log.txt", keybES));
+		SEH::Ptr keybSEH(new KeyboardSEH("log.txt", keybES));
+		AEH::Ptr keybAEH;
+		HSHA::Handlers keybHandlers(keybSEH, keybAEH);
 
 		TcpSocket::Ptr listenerSokcet(new TcpSocket());
 		ListenerES::Ptr listenerES(new ListenerES(listenerSokcet, 5050));
-		EventHandler::Ptr acceptorEH(new AcceptorEH(listenerES, reactor));
+		SEH::Ptr acceptorSEH(new AcceptorSEH(listenerES, hsha));
+		AEH::Ptr acceptorAEH;
+		HSHA::Handlers acceptorHandlers(acceptorSEH, acceptorAEH);
 
-		reactor.add(keybEH);
-		reactor.add(acceptorEH);
+		hsha.add(keybHandlers);
+		hsha.add(acceptorHandlers);
 
-		reactor.eventLoop(); */
+		hsha.eventLoop();
 	}
 	catch (const std::runtime_error& rte)
 	{

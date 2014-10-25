@@ -1,20 +1,20 @@
 #ifndef ACCEPTOR_EH_HPP
 #define ACCEPTOR_EH_HPP
 
-#include "../EventEngines/SyncEventHandler.hpp"
+#include "BaseTypes.hpp"
 #include "ListenerES.hpp"
 
-class AcceptorSEH : public SyncEventHandler<SocketES, std::string>
+class AcceptorSEH: public SEH
 {
 public:
-	AcceptorSEH(ListenerES::Ptr/*, Reactor&*/);
+	AcceptorSEH(ListenerES::Ptr, HSHA&);
 	virtual ~AcceptorSEH();
 
 public:
 	virtual std::string handle(const EventSource::EventTypes&);
 
 private:
-	//Reactor& m_reactor;
+	HSHA& m_hsha;
 };
 
 #endif
