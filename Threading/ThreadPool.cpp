@@ -2,6 +2,8 @@
 
 #include <sstream>
 
+using namespace Threading;
+
 ThreadPool::Job::Job(Type p_type, const Task& p_task)
 	: m_Type(p_type), m_Task(p_task)
 {
@@ -14,7 +16,7 @@ ThreadPool::ThreadPool(size_t p_size)
 
 ThreadPool::~ThreadPool()
 {
-	//TODO check if kill all threads before
+	//TODO check if kill all threads before if needed
 }
 
 void ThreadPool::start()

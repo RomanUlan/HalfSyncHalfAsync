@@ -18,6 +18,8 @@ public:
     static int Out;
     static int Hup;
     static int RdHup;
+    static int EdgeTriggered;
+    static int OneShot;
   };
   typedef std::set<int> EventTypes;
 
@@ -42,10 +44,16 @@ public:
   virtual void modify(Socket::Ptr, const EventTypes&) const;
   virtual void remove(Socket::Descriptor) const;
   virtual void wait(Events&) const;
+  virtual void interrupt() const;
+
+private:
+  void epollCtl(int, int, const EventTypes&) const;
 
 private:
   const int m_size;
   const int m_epollFd;
+  int m_selfStopPipes[2];
 };
 
 #endif
+

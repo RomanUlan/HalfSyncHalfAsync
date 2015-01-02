@@ -22,6 +22,7 @@ public:
   virtual void modify(EventSource::Ptr) = 0;
   virtual void remove(EventSource::Descriptor) = 0;
   virtual void wait(Events&) = 0;
+  virtual void interrupt() = 0;
 
 protected:
   EventDemultiplexer();

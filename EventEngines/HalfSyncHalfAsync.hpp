@@ -35,7 +35,7 @@ private:
 	std::mutex m_mutex;
 	t_handlers m_handlers;
 	EventDemultiplexer::Ptr m_eventDemultiplexer;
-	ThreadPool m_threadPool;
+	Threading::ThreadPool m_threadPool;
 }; //class HalfSyncHalfAsync
 
 template <class SyncResult>
@@ -62,7 +62,7 @@ void HalfSyncHalfAsync<SyncResult>::add(const Handlers& p_handlers)
 	}
 
 	{ //m_mutex lock scope begin
-		std::unique_lock<std::mutex> lock;
+		std::unique_lock<std::mutex> lock(m_mutex);
 		m_eventDemultiplexer->add(es);
 		m_handlers.insert(std::make_pair(syncD, p_handlers));
 	} //m_mutex lock scope end
@@ -71,12 +71,15 @@ void HalfSyncHalfAsync<SyncResult>::add(const Handlers& p_handlers)
 template <class SyncResult>
 void HalfSyncHalfAsync<SyncResult>::remove(EventSource::Descriptor p_descriptor)
 {
-	auto i = m_handlers.find(p_descriptor);
-	if (i != m_handlers.end())
-	{
-		m_eventDemultiplexer->remove(p_descriptor);
-		m_handlers.erase(i);
-	}
+	{ //m_mutex lock scope begin
+		std::unique_lock<std::mutex> lock(m_mutex);
+		auto i = m_handlers.find(p_descriptor);
+		if (i != m_handlers.end())
+		{
+			m_eventDemultiplexer->remove(p_descriptor);
+			m_handlers.erase(i);
+		}
+	} //m_mutex lock scope end
 }
 
 template <class SyncResult>
@@ -105,13 +108,13 @@ void HalfSyncHalfAsync<SyncResult>::eventLoop()
 			}
 		} //m_mutex lock scope end
 
-		for (typename t_toHandles::iterator i = toHandles.begin(); i != toHandles.end(); ++i)
+		for (auto i = toHandles.begin(); i != toHandles.end(); ++i)
 		{
-			typename AsyncEventHandler<SyncResult>::Ptr aeh = i->first.second;
+			auto aeh = i->first.second;
 			SyncResult res = i->first.first->handle(i->second);
 			if (aeh)
 			{
-				ThreadPool::Task t = [aeh, res](void)->void { aeh->handle(res); };
+				Threading::ThreadPool::Task t = [aeh, res](void)->void { aeh->handle(res); };
 				m_threadPool.add(t);
 			}
 		}

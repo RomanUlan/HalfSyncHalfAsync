@@ -4,6 +4,10 @@
 #include <list>
 #include <mutex>
 #include <condition_variable>
+
+namespace Threading
+{
+
 template<class T>
 class TwoEndQueue
 {
@@ -22,6 +26,7 @@ private:
 	std::condition_variable m_condition;
 	t_queue m_queue;
 };
+//class TwoEndQueue
 
 template<class T>
 TwoEndQueue<T>::TwoEndQueue()
@@ -56,7 +61,7 @@ T TwoEndQueue<T>::pop()
 	std::unique_ptr<T> result;
 	{
 		std::unique_lock<std::mutex> lock(m_mutex);
-		while(m_queue.empty())
+		while (m_queue.empty())
 			m_condition.wait(lock);
 
 		result.reset(new T(m_queue.front()));
@@ -65,6 +70,8 @@ T TwoEndQueue<T>::pop()
 
 	return *result;
 }
+
+} //namespace Threading
 
 #endif //TWO_END_QUEUE_HPP
 

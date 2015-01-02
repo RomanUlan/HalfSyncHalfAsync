@@ -1,8 +1,8 @@
 #include "TcpSocket.hpp"
 
 #include <stdexcept>
-#include <unistd.h>
 #include <string.h>
+#include <unistd.h>
 #include <arpa/inet.h>
 #include <sys/types.h>
 
@@ -61,3 +61,4 @@ TcpSocket::Ptr TcpSocket::accept() const
 
   return TcpSocket::Ptr(new TcpSocket(fd, addr, addrLen));
 }
+
