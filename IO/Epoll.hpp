@@ -9,7 +9,7 @@
 class Epoll
 {
 public:
-  typedef boost::shared_ptr<Epoll> Ptr;
+  typedef std::shared_ptr<Epoll> Ptr;
 
   struct EventType
   {

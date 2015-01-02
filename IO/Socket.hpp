@@ -2,12 +2,12 @@
 #define SOCKET_HPP
 
 #include <string>
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 class Socket
 {
 public:
-  typedef boost::shared_ptr<Socket> Ptr;
+  typedef std::shared_ptr<Socket> Ptr;
   typedef int Descriptor;
 
 public:

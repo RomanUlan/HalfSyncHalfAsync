@@ -1,50 +1,52 @@
 #ifndef ASYC_EVENT_HANDLER_HPP
 #define ASYC_EVENT_HANDLER_HPP
 
+#include "EventSource.hpp"
+
 #include <memory>
 
-template <typename EventSource, class SyncResult>
+template <class SyncResult>
 class AsyncEventHandler
 {
 public:
-	typedef typename std::shared_ptr<AsyncEventHandler<EventSource, SyncResult> > Ptr;
+	typedef std::shared_ptr<AsyncEventHandler> Ptr;
 
 public:
 	virtual ~AsyncEventHandler();
 
 public:
 	virtual void handle(const SyncResult&) = 0;
-	typename EventSource::Ptr getEventSource() const;
-	typename EventSource::EventTypes getEventTypes() const;
+	EventSource::Ptr getEventSource() const;
+	EventSource::EventTypes getEventTypes() const;
 
 protected:
-	explicit AsyncEventHandler(typename EventSource::Ptr);
+	explicit AsyncEventHandler(EventSource::Ptr);
 	AsyncEventHandler(const AsyncEventHandler&);
 	AsyncEventHandler& operator=(const AsyncEventHandler&);
 
 protected:
-	typename EventSource::Ptr m_eventSource;
+	EventSource::Ptr m_eventSource;
 }; //class AsyncEventHandler
 
-template <typename EventSource, class SyncResult>
-AsyncEventHandler<EventSource, SyncResult>::AsyncEventHandler(typename EventSource::Ptr p_es)
+template <class SyncResult>
+AsyncEventHandler<SyncResult>::AsyncEventHandler(EventSource::Ptr p_es)
 	: m_eventSource(p_es)
 {
 }
 
-template <typename EventSource, class SyncResult>
-AsyncEventHandler<EventSource, SyncResult>::~AsyncEventHandler()
+template <class SyncResult>
+AsyncEventHandler<SyncResult>::~AsyncEventHandler()
 {
 }
 
-template <typename EventSource, class SyncResult>
-typename EventSource::Ptr AsyncEventHandler<EventSource, SyncResult>::getEventSource() const
+template <class SyncResult>
+EventSource::Ptr AsyncEventHandler<SyncResult>::getEventSource() const
 {
 	return m_eventSource;
 }
 
-template <typename EventSource, class SyncResult>
-typename EventSource::EventTypes AsyncEventHandler<EventSource, SyncResult>::getEventTypes() const
+template <class SyncResult>
+EventSource::EventTypes AsyncEventHandler<SyncResult>::getEventTypes() const
 {
 	return m_eventSource->getEventTypes();
 }

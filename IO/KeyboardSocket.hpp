@@ -6,7 +6,7 @@
 class KeyboardSocket: public Socket
 {
 public:
-  typedef boost::shared_ptr<KeyboardSocket> Ptr;
+  typedef std::shared_ptr<KeyboardSocket> Ptr;
 
 public:
   KeyboardSocket();

@@ -1,6 +1,7 @@
 #include "TcpSocket.hpp"
 
 #include <stdexcept>
+#include <unistd.h>
 #include <string.h>
 #include <arpa/inet.h>
 #include <sys/types.h>

@@ -1,9 +1,9 @@
 #include "Epoll.hpp"
 
 #include <stdexcept>
+#include <unistd.h>
 #include <sys/epoll.h>
 #include <string.h>
-#include <boost/scoped_array.hpp>
 
 namespace
 {
@@ -98,20 +98,20 @@ void Epoll::remove(Socket::Descriptor p_fd) const
 {
   if (::epoll_ctl(m_epollFd, EPOLL_CTL_DEL, p_fd, 0) < 0)
   {
-    throw ::std::runtime_error("Cannot remove fd from epoll");
+    throw std::runtime_error("Cannot remove fd from epoll");
   }
 }
 
 void Epoll::wait(Events& p_events) const
 {
-  boost::scoped_array<epoll_event> events(new epoll_event[m_size]);
+  std::unique_ptr<epoll_event[]> events(new epoll_event[m_size]);
   ::memset(events.get(), 0, m_size * sizeof (epoll_event));
   int eventsLen = 0;
 
   eventsLen = ::epoll_wait(m_epollFd, events.get(), m_size, -1);
   if (eventsLen < 0)
   {
-    throw ::std::runtime_error("Epoll wait failed");
+    throw std::runtime_error("Epoll wait failed");
   }
 
   for (int i = 0; i < eventsLen; ++i)

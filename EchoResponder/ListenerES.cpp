@@ -20,7 +20,7 @@ ListenerES::~ListenerES()
 
 MessageES::Ptr ListenerES::accept() const
 {
-  TcpSocket::Ptr tcpSocket = boost::dynamic_pointer_cast<TcpSocket>(m_socket);
+  TcpSocket::Ptr tcpSocket = std::dynamic_pointer_cast<TcpSocket>(m_socket);
   TcpSocket::Ptr accepted = tcpSocket->accept();
   return MessageES::Ptr(new MessageES(accepted));
 }
