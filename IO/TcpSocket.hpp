@@ -7,7 +7,7 @@
 class TcpSocket: public Socket
 {
 public:
-  typedef boost::shared_ptr<TcpSocket> Ptr;
+  typedef std::shared_ptr<TcpSocket> Ptr;
 
 public:
   TcpSocket();

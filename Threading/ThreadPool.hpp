@@ -6,6 +6,9 @@
 #include <thread>
 #include <vector>
 
+namespace Threading
+{
+
 class ThreadPool
 {
 private:
@@ -27,7 +30,7 @@ private:
 
 public:
 	typedef Job::Task Task;
-	ThreadPool(size_t);
+	explicit ThreadPool(size_t);
 	~ThreadPool();
 
 public:
@@ -51,6 +54,8 @@ private:
 	size_t m_size;
 	threads m_threads;
 }; //class ThreadPool
+
+} //namespace Threading
 
 #endif //THREADING_THREAD_POOL_HPP
 

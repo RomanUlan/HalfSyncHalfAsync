@@ -10,9 +10,9 @@
 
 #include <string>
 
-typedef HalfSyncHalfAsync<EpollED, SocketES, std::string> HSHA;
-typedef SyncEventHandler<SocketES, std::string> SEH;
-typedef AsyncEventHandler<SocketES, std::string> AEH;
+typedef HalfSyncHalfAsync<std::string> HSHA;
+typedef SyncEventHandler<std::string> SEH;
+typedef AsyncEventHandler<std::string> AEH;
 
 #endif //BASE_TYPES_HPP
 

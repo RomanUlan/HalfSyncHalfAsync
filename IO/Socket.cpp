@@ -2,6 +2,7 @@
 
 #include <stdexcept>
 #include <string.h>
+#include <unistd.h>
 #include <sys/socket.h>
 #include <fcntl.h>
 
