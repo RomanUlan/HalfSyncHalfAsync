@@ -9,7 +9,7 @@ template <class SyncResult>
 class AsyncEventHandler
 {
 public:
-	typedef std::shared_ptr<AsyncEventHandler> Ptr;
+	typedef typename std::shared_ptr<AsyncEventHandler<SyncResult> > Ptr;
 
 public:
 	virtual ~AsyncEventHandler();

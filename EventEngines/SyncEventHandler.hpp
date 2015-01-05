@@ -7,7 +7,7 @@ template <class SyncResult>
 class SyncEventHandler
 {
 public:
-	typedef std::shared_ptr<SyncEventHandler> Ptr;
+	typedef typename std::shared_ptr<SyncEventHandler<SyncResult> > Ptr;
 
 public:
 	virtual ~SyncEventHandler();
@@ -50,4 +50,3 @@ EventSource::EventTypes SyncEventHandler<SyncResult>::getEventTypes() const
 }
 
 #endif //SYC_EVENT_HANDLER_HPP
-
