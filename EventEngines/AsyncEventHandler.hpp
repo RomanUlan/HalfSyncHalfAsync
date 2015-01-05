@@ -9,28 +9,28 @@ template <class SyncResult>
 class AsyncEventHandler
 {
 public:
-	typedef typename std::shared_ptr<AsyncEventHandler<SyncResult> > Ptr;
+  typedef typename std::shared_ptr<AsyncEventHandler<SyncResult> > Ptr;
 
 public:
-	virtual ~AsyncEventHandler();
+  virtual ~AsyncEventHandler();
 
 public:
-	virtual void handle(const SyncResult&) = 0;
-	EventSource::Ptr getEventSource() const;
-	EventSource::EventTypes getEventTypes() const;
+  virtual void handle(const SyncResult&) = 0;
+  EventSource::Ptr getEventSource() const;
+  EventSource::EventTypes getEventTypes() const;
 
 protected:
-	explicit AsyncEventHandler(EventSource::Ptr);
-	AsyncEventHandler(const AsyncEventHandler&);
-	AsyncEventHandler& operator=(const AsyncEventHandler&);
+  explicit AsyncEventHandler(EventSource::Ptr);
+  AsyncEventHandler(const AsyncEventHandler&);
+  AsyncEventHandler& operator=(const AsyncEventHandler&);
 
 protected:
-	EventSource::Ptr m_eventSource;
+  EventSource::Ptr m_eventSource;
 }; //class AsyncEventHandler
 
 template <class SyncResult>
 AsyncEventHandler<SyncResult>::AsyncEventHandler(EventSource::Ptr p_es)
-	: m_eventSource(p_es)
+  : m_eventSource(p_es)
 {
 }
 
@@ -42,14 +42,13 @@ AsyncEventHandler<SyncResult>::~AsyncEventHandler()
 template <class SyncResult>
 EventSource::Ptr AsyncEventHandler<SyncResult>::getEventSource() const
 {
-	return m_eventSource;
+  return m_eventSource;
 }
 
 template <class SyncResult>
 EventSource::EventTypes AsyncEventHandler<SyncResult>::getEventTypes() const
 {
-	return m_eventSource->getEventTypes();
+  return m_eventSource->getEventTypes();
 }
 
 #endif //ASYC_EVENT_HANDLER_HPP
-
