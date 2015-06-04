@@ -7,14 +7,14 @@
 class EchoResponderSEH: public SEH
 {
 public:
-	EchoResponderSEH(MessageES::Ptr, HSHA&);
-	virtual ~EchoResponderSEH();
+  EchoResponderSEH(MessageES::Ptr, HSHA&);
+  virtual ~EchoResponderSEH();
 
 public:
-	virtual std::string handle(const EventSource::EventTypes&);
+  virtual std::string handle(const EventSource::EventTypes&);
 
 private:
-	HSHA& m_hsha;
+  HSHA& m_hsha;
 };
 
 #endif
